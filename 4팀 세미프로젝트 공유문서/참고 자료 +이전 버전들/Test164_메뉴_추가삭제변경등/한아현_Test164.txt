@@ -1,0 +1,212 @@
+/*======================= [ 3/ 7 화 ] =====================
+	           ■■ 컬렉션(Collection) ■■	
+  ---------------------------------------------------------
+  ---- 참고 + 개인 메모~ ----
+ * 리소스 관리 편의를 위해 static 위주로 구성했으나
+실제 세미 프로젝트에서 그렇게 할 필요는 없음~!
+
+ * System.exit(-1); 관련 번외~
+ pda 디바이스에 맞춰 나온  rmi 기술
+ 단순히 메인 메소드가 아닌 프로그램 자체 전체종료. 묶음으로 외워쓰자.
+
+ * switch문 제약조건
+1. 조건식 결과는 정수 또는 문자열
+2. case문의 값은 정수,상수(문자포함),문자열만 가능하며 중복 불가.
+   또한 변수, 실수는 case문 값으로 사용할 수 없다.
+ =========================================================*/
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.Vector;
+
+class Menus // (완성)
+{
+	public static final int E_ADD = 1;  //-- 요소 추가
+	public static final int E_DISP = 2; //-- 요소 출력
+	public static final int E_FIND = 3; //-- 요소 검색
+	public static final int E_DEL = 4;  //-- 요소 삭제
+	public static final int E_CHA = 5;  //-- 요소 변경
+	public static final int E_EXIT = 6; //-- 종료 
+}
+
+
+ public class Test164
+ {	
+	// 주요 속성 구성
+	private static final Vector<String> vt; //-- 자료구조 *<Object> 였는데 바꿈
+	private static BufferedReader br;      //-- 입력 활용
+	private static Integer sel;            //-- 선택 값
+	private static String con;             //-- 계속 진행 여부 
+
+	 static //----> static(정적) 초기화 블럭
+	 {
+		// Vector 자료구조 생성
+		vt = new Vector<String>(); // *문자열 타입으로 변경
+		
+		// BufferedReader 인스턴스 생성
+		br = new BufferedReader(new InputStreamReader(System.in));
+
+		// 사용자 입력값 초기화
+		sel = 1;
+		con = "Y";
+	 }
+
+	 // 메뉴 출력 메소드 (완성)
+	 public static void menuDisp()
+	 {
+		 System.out.println("===[메뉴 선택]===");
+		 System.out.println("1. 요소 추가");
+		 System.out.println("2. 요소 출력");
+		 System.out.println("3. 요소 검색");
+		 System.out.println("4. 요소 삭제");
+		 System.out.println("5. 요소 변경");
+		 System.out.println("6. 종료");
+		 System.out.println("=================\n");	  
+	 }
+
+	 // 메뉴 선택 메소드 (완성)
+	 public static void menuSelect() throws IOException, NumberFormatException
+	 {	
+		 do
+		 {   System.out.print(">> 메뉴 선택(1~6) : "); 
+			 sel = Integer.parseInt(br.readLine());//사용자 선택값 저장
+
+			if (1 > sel || sel > 6)
+			{
+				System.out.println("1 ~ 6 중 1개의 숫자를 입력하세요!!");
+				sel = Integer.parseInt(br.readLine());
+			}
+		 }
+		 while (1 > sel || sel > 6);
+
+	 }
+
+	 
+	 // 선택 메뉴 실행에 따른 기능 호출 메소드 (완성)
+	 public static void menuRun() throws IOException
+	 {	
+		switch (sel)//sel : 사용자 입력값(1~6)
+		{        
+		case Menus.E_ADD: addElemnt(); break;   // 숫자 대신 클래스.상수 변수로 접근
+		case Menus.E_DISP: dispElement();break; // break 안하면 위에서 아래까지 전부 실행 
+		case Menus.E_FIND: findElement();break;
+		case Menus.E_DEL: delElement();break;
+		case Menus.E_CHA: chaElement();break;
+		case Menus.E_EXIT: exit();break;
+		}
+	 }
+
+	 // 자료구조에 요소 추가(입력) 메소드 (1) -(완성)
+	 public static void addElemnt() throws IOException
+	 {	
+		 int n = 1;
+		 
+		 while(con.equals("y") || con.equals("Y")) //--> char(기본자료형) 아니고 String! 객체 값 비교는 equals!
+		 {
+			  System.out.printf("%d번 째 요소 입력:", n);
+			  vt.add(br.readLine());  // vt 자료구조에 add()
+			  System.out.printf("%d번 째 요소 입력 성공~!!\n", n);
+			  System.out.print("요소 입력 계속(Y/N) :");
+			  con = br.readLine();
+			  System.out.println();
+			  n++;
+		 }	 
+	 }
+
+	 // 자료구조 전체 요소 출력 메소드 (2) - (완성)
+	 public static void dispElement() 
+	 {
+		 System.out.println("[벡터 전체 출력]"); 
+		 for (String s: vt)
+		 {
+			System.out.println(s);
+		 }	 
+		 System.out.println("벡터 전체 출력 완료~!!");
+		 System.out.println();
+	 }
+
+	 // 자료구조 내 요소 검색 메소드 (3) - (완성)
+	 public static void findElement() throws IOException
+	 {	 
+		 String s = "";
+
+		 System.out.print(" >> 검색할 요소 입력 :");
+		 s = br.readLine();
+
+		 System.out.println("[검색 결과 출력]");
+		 if (vt.contains(s))
+		 {
+			 System.out.println("항목이 존재합니다.");
+		 }
+		 else
+			System.out.println("항목이 존재하지 않습니다.");
+		 System.out.println();	 
+	 }
+
+	 // 자료구조 내 요소 삭제 메소드 (4) - (완성)
+	 public static void delElement() throws IOException
+	 {	
+		String s = "";
+		System.out.print(">> 삭제할 요소 입력: ");
+		s = br.readLine();
+		System.out.println("[삭제 결과 출력]");
+		
+		if (vt.contains(s))
+		{	
+			vt.remove(s);  //--> 삭제
+			System.out.printf("%s 항목이 삭제되었습니다. " ,s);
+		}
+		else
+			System.out.println("항목이 존재하지 않아 삭제할 수 없습니다.");
+		System.out.println();
+	 }
+
+	 // 자료구조 내 요소 수정(변경) 메소드 (5) - (완성)
+	 public static void chaElement() throws IOException
+	 {
+		String s = "";
+		System.out.print(">> 변경할 요소 입력: ");
+		s = br.readLine();
+
+		if (vt.contains(s))
+		{	
+			String c = "";
+
+			System.out.print(">> 수정할 내용 입력:");
+			c = br.readLine();
+					
+			int i = vt.indexOf(s); //s (교체 대상) 의 인덱스를 i에 담기
+			vt.set(i, c);          // i번 자리를 c로 변경 
+
+			System.out.println("[변경 결과 출력]");
+			System.out.printf("%s 항목이 %s (으)로 변경되었습니다. " ,s,c);
+		}
+		else
+			System.out.println("[변경 결과 출력]");
+			System.out.println("변경할 대상이 존재하지 않습니다.");
+		System.out.println();
+	 }
+
+	 // 프로그램 종료 메소드 (6) - (완성)
+	 public static void exit() 
+	 {
+		 System.out.println("\n 프로그램 종료~!!");
+		 //cf. return;
+		 System.exit(-1); 
+	 }
+
+     // main() 메소드 (완성)
+	 public static void main(String args[]) throws IOException, NumberFormatException
+	 {		 
+		do
+		{
+			menuDisp();
+			menuSelect();		
+			menuRun();
+		}
+		while (true);
+	 }
+ }
+
+

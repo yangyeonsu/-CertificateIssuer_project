@@ -1,0 +1,367 @@
+/*============================================
+■■■ 컬렉션(Collection) ■■■   3월7일
+============================================*/
+
+// Test164 클래스를 완성하여
+// 다음 기능을 가진 프로그램으 구현한다.
+
+/*
+실행 예)
+
+	===[메뉴 선택]===
+	1. 요소 추가
+	2. 요소 출력
+	3. 요소 검색
+	4. 요소 삭제
+	5. 요소 변경
+	6. 종료
+	=================
+>> 메뉴 선택(1-6) : 1
+
+1번째 요소 입력 : 양연수
+1번째 요소 입력 성공~!!!
+요소 입력 계속(Y/N) : y
+
+2번째 요소 입력 : 유서영
+2번째 요소 입력 성공~!!!
+요소 입력 계속(Y/N) : n
+
+	===[메뉴 선택]===
+	1. 요소 추가
+	2. 요소 출력
+	3. 요소 검색
+	4. 요소 삭제
+	5. 요소 변경
+	6. 종료
+	=================
+>> 메뉴 선택(1-6) : 2
+
+[벡터 전체 출력]
+양연수
+유서영
+벡터 전체 출력 완료~!!!
+
+	===[메뉴 선택]===
+	1. 요소 추가
+	2. 요소 출력
+	3. 요소 검색
+	4. 요소 삭제
+	5. 요소 변경
+	6. 종료
+	=================
+>> 메뉴 선택(1-6) : 3
+
+>> 검색할 요소 입력 : 유서영
+
+[검색 결과 출력]
+항목이 존재합니다.
+
+	===[메뉴 선택]===
+	1. 요소 추가
+	2. 요소 출력
+	3. 요소 검색
+	4. 요소 삭제
+	5. 요소 변경
+	6. 종료
+	=================
+>> 메뉴 선택(1-6) : 3
+
+>> 검색할 요소 입력 : 이기배
+
+[검색 결과 출력]
+항목이 존재하지 않습니다.
+
+	===[메뉴 선택]===
+	1. 요소 추가
+	2. 요소 출력
+	3. 요소 검색
+	4. 요소 삭제
+	5. 요소 변경
+	6. 종료
+	=================
+>> 메뉴 선택(1-6) : 4
+
+>> 삭제할 요소 입력 : 이준복
+
+[삭제 결과 출력]
+항목이 존재하지 않아 삭제할 수 없습니다.
+
+	===[메뉴 선택]===
+	1. 요소 추가
+	2. 요소 출력
+	3. 요소 검색
+	4. 요소 삭제
+	5. 요소 변경
+	6. 종료
+	=================
+>> 메뉴 선택(1-6) : 4
+
+>> 삭제할 요소 입력 : 양연수
+
+[삭제 결과 출력]
+양연수 항목이 삭제되었습니다.
+
+	===[메뉴 선택]===
+	1. 요소 추가
+	2. 요소 출력
+	3. 요소 검색
+	4. 요소 삭제
+	5. 요소 변경
+	6. 종료
+	=================
+>> 메뉴 선택(1-6) : 5
+
+>> 변경할 요소 입력 : 주수인
+
+[변경 결과 출력]
+변경할 대상이 존재하지 않습니다.
+
+	===[메뉴 선택]===
+	1. 요소 추가
+	2. 요소 출력
+	3. 요소 검색
+	4. 요소 삭제
+	5. 요소 변경
+	6. 종료
+	=================
+>> 메뉴 선택(1-6) : 5
+
+>> 변경할 요소 입력 : 유서영
+>> 수정할 내용 입력 : 진주연
+
+[변경 결과 출력]
+변경이 완료되었습니다.
+
+	===[메뉴 선택]===
+	1. 요소 추가
+	2. 요소 출력
+	3. 요소 검색
+	4. 요소 삭제
+	5. 요소 변경
+	6. 종료
+	=================
+>> 메뉴 선택(1-6) : 2
+
+[벡터 전체 출력]
+진주연
+벡터 전체 출력 완료~!!!
+
+	===[메뉴 선택]===
+	1. 요소 추가
+	2. 요소 출력
+	3. 요소 검색
+	4. 요소 삭제
+	5. 요소 변경
+	6. 종료
+	=================
+>> 메뉴 선택(1-6) : 6
+
+프로그램이 종료~!!!
+계속하려면 아무 키나...
+
+
+*/
+
+import java.util.Iterator;
+import java.util.Vector;
+import java.io.*;
+
+class Menus		//-- 완성
+{
+	public static final int E_ADD = 1;			//-- 요소 추가
+	public static final int E_DISP = 2;			//-- 요소 출력
+	public static final int E_FIND = 3;			//-- 요소 검색
+	public static final int E_DEL = 4;			//-- 요소 삭제
+	public static final int E_CHA = 5;			//-- 요소 변경
+	public static final int E_EXIT = 6;			//-- 종료
+}
+
+public class Test164
+{
+	// 주요 속성 구성 → 완성 
+	private static final Vector<Object> vt;		//-- 자료구조
+	private static BufferedReader br;			//-- 입력 시 활용
+	private static Integer sel;					//-- 선택 값
+	private static String con;					//-- 계속 진행 여부
+
+	// static(정적) 초기화 블럭
+	static
+	{
+		// Vector 자료구조 생성
+		vt = new Vector<Object>();
+
+		// BufferedReader 인스턴스 생성
+		br = new BufferedReader(new InputStreamReader(System.in));
+
+		// 사용자 입력값 초기화
+		sel = 1;
+		con = "Y";
+	}
+
+	
+	// 메뉴 출력 메소드
+	public static void menuDisp()
+	{
+		System.out.println("===[메뉴 선택]===");
+		String[] arr = {"요소 추가", "요소 출력", "요소 검색", "요소 삭제", "요소 변경", "종료"};
+		for (int i=0; i<arr.length; i++)
+			System.out.printf("%d. %s\n", (i+1), arr[i] );
+		System.out.println("=================");
+	}
+
+	// 메뉴 선택 메소드
+	public static void menuSelect() throws IOException, NumberFormatException
+	{
+		System.out.print(">> 메뉴 선택(1-6) : ");
+		sel = Integer.parseInt(br.readLine());
+		System.out.println();
+		
+	}
+
+	// 선택된 메뉴 실행에 따른 기능 호출 메소드
+	public static void menuRun() throws IOException
+	{
+		switch (sel)
+		{
+		case Menus.E_ADD: addElement(); break;
+		case Menus.E_DISP: dispElement(); break;
+		case Menus.E_FIND: findElement(); break;
+		case Menus.E_DEL: delElement(); break;
+		case Menus.E_CHA: chaElement(); break;
+		case Menus.E_EXIT: exit(); break;
+		}
+
+	
+
+	}
+
+	// 자료구조에 요소 추가(입력) 메소드
+	public static void addElement() throws IOException
+	{
+
+		do
+		{
+			System.out.print((vt.size()+1) + "번째 요소 입력 : ");
+			String str = br.readLine();
+			vt.add(str);
+
+			System.out.println((vt.size()+1) + "번째 요소 입력 성공~!!!");
+			System.out.print("요소 입력 계속(Y/N) : ");
+			con = br.readLine();
+
+
+		}
+		while (con.equals("Y") || con.equals("y"));			//문자열을 비교하니께 == 가 아니고 equals() 써야되부러
+
+		System.out.println();
+
+
+	}
+
+	// 자료구조 전체 요소 출력 메소드
+	public static void dispElement()
+	{
+		String str;
+		Iterator<Object> it = vt.iterator();
+
+		System.out.println("[벡터 전체 출력]");
+
+		while (it.hasNext())
+			System.out.print((String)it.next() + " ");
+
+		System.out.println("\n벡터 전체 출력 완료~!!!");
+		System.out.println();
+	}
+
+	// 자료구조 내 요소 검색 메소드
+	public static void findElement() throws IOException
+	{
+		System.out.print(">> 검색할 요소 입력 : ");
+		String str = br.readLine();
+		boolean b;
+		b = vt.contains(str);
+
+		System.out.println("[검색 결과 출력]");
+
+		if (b)
+			System.out.println("항목이 존재합니다.");
+		else
+			System.out.println("항목이 존재하지 않습니다.");
+
+		System.out.println();
+	}
+
+	// 자료구조 내 요소 삭제 메소드
+	public static void delElement() throws IOException
+	{
+		System.out.print(">> 삭제할 요소 입력 : ");
+		String str = br.readLine();
+		boolean flag = vt.contains(str);
+		System.out.println("[삭제 결과 출력]");
+		if (flag)
+		{
+			vt.remove(str);
+			System.out.println(str + " 항목이 삭제되었습니다");
+		}
+		else
+			System.out.println("항목이 존재하지 않아 삭제할 수 없습니다.");
+
+		System.out.println();
+	}
+
+
+	// 자료구조 내 요소 수정(변경) 메소드
+	public static void chaElement() throws IOException
+	{
+		// 검색 → 인덱스위치 → 변경(set)
+		System.out.print(">> 변경할 요소 입력 : ");
+		String str = br.readLine();
+		boolean flag = vt.contains(str);
+
+		if (flag)
+		{
+			int i = vt.indexOf(str);
+			System.out.print(">> 수정할 내용 입력 : ");
+			String str2 = br.readLine();
+			vt.set(i, str2);
+			System.out.println("[변경 결과 출력]");
+			System.out.println("변경이 완료되었습니다.");
+
+		}
+		else
+		{
+			System.out.println("[변경 결과 출력]");
+			System.out.println("변경할 대상이 존재하지 않습니다.");
+		}
+
+		
+		System.out.println();
+	}
+
+	// 프로그램 종료 메소드 → 완성
+	public static void exit()
+	{
+		System.out.println("\n프로그램 종료~!!!");
+		System.exit(-1);	// 프로그램 종료하는 메소드. 값은 -1말고도 아무거나 써도 댐. 
+							// return 은 메소드가 종료되는 거임. 
+	}
+
+	// main() 메소드 → 완성
+	public static void main(String[] args) throws IOException, NumberFormatException
+	{
+		
+		do
+		{
+			menuDisp();
+			menuSelect();
+			menuRun();
+		}
+		while (true);
+		
+
+	}
+
+		
+
+
+}
